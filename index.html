@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Procesos RRHH</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#0d0a08; --card-bg:#161210; --border:rgba(255,255,255,0.08);
+    --text:#f5f5f0; --muted:#8a8070;
+    --brand:#FF6D00; --brand-dim:rgba(255,109,0,0.12); --brand-border:rgba(255,109,0,0.3);
+    --permisos:#00e5b4; --vacaciones:#6c9cff; --cesantias:#ffb547;
+    --prestamos:#FF6D00; --incapacidad:#ff6b8a;
+    --luto:#94a3b8; --maternidad:#f472b6; --paternidad:#38bdf8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;padding:40px 20px;overflow-x:hidden;}
+  body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(255,109,0,0.07) 0%,transparent 60%),radial-gradient(ellipse 40% 40% at 90% 80%,rgba(108,156,255,0.04) 0%,transparent 60%);pointer-events:none;z-index:0;}
+  .container{max-width:980px;margin:0 auto;position:relative;z-index:1;}
+
+  /* HEADER */
+  header{text-align:center;margin-bottom:52px;animation:fadeUp 0.7s ease both;}
+  .label{font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--brand);margin-bottom:14px;display:block;opacity:0.8;}
+  h1{font-family:'Bebas Neue',cursive;font-size:clamp(52px,9vw,92px);line-height:0.9;letter-spacing:0.02em;color:#ffffff;margin-bottom:6px;}
+  h1 span{color:var(--brand);}
+  .subtitle{color:var(--muted);font-size:14px;font-weight:300;margin-top:10px;}
+  .header-line{width:48px;height:3px;background:var(--brand);margin:14px auto 0;border-radius:2px;}
+
+  /* SECTION TITLE */
+  .section-title{font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--brand);margin:32px 0 14px;padding-left:12px;border-left:2px solid var(--brand);opacity:0.8;}
+
+  /* GRID */
+  .grid{display:grid;gap:14px;}
+  .grid-2{grid-template-columns:1fr 1fr;}
+  .grid-3{grid-template-columns:1fr 1fr 1fr;}
+  @media(max-width:680px){.grid-2,.grid-3{grid-template-columns:1fr;}}
+
+  /* CARD */
+  .card{background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:26px;position:relative;overflow:hidden;cursor:pointer;transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s;animation:fadeUp 0.6s ease both;}
+  .card:hover{transform:translateY(-5px);border-color:var(--c);box-shadow:0 16px 48px rgba(0,0,0,0.5),0 0 0 1px var(--c);}
+  .card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--c);border-radius:20px 20px 0 0;}
+  .card::after{content:'';position:absolute;top:-40px;right:-40px;width:130px;height:130px;border-radius:50%;background:var(--c);opacity:0.04;transition:opacity 0.3s,transform 0.3s;}
+  .card:hover::after{opacity:0.1;transform:scale(1.4);}
+
+  .card.permisos{--c:var(--permisos);animation-delay:0.1s;}
+  .card.vacaciones{--c:var(--vacaciones);animation-delay:0.15s;}
+  .card.cesantias{--c:var(--cesantias);animation-delay:0.2s;}
+  .card.prestamos{--c:var(--prestamos);animation-delay:0.25s;}
+  .card.incapacidad{--c:var(--incapacidad);animation-delay:0.3s;}
+  .card.luto{--c:var(--luto);animation-delay:0.35s;}
+  .card.maternidad{--c:var(--maternidad);animation-delay:0.4s;}
+  .card.paternidad{--c:var(--paternidad);animation-delay:0.45s;}
+
+  .icon-wrap{width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:21px;margin-bottom:14px;transition:background 0.3s,border-color 0.3s;}
+  .card:hover .icon-wrap{background:color-mix(in srgb,var(--c) 15%,transparent);border-color:color-mix(in srgb,var(--c) 40%,transparent);}
+
+  .card-title{font-family:'Bebas Neue',cursive;font-size:23px;letter-spacing:0.05em;color:#ffffff;margin-bottom:5px;}
+  .card-desc{color:var(--muted);font-size:12px;font-weight:300;line-height:1.5;margin-bottom:16px;}
+
+  .badge{display:inline-flex;align-items:center;gap:7px;background:color-mix(in srgb,var(--c) 12%,transparent);border:1px solid color-mix(in srgb,var(--c) 30%,transparent);border-radius:100px;padding:6px 13px;font-size:11.5px;font-weight:600;color:var(--c);margin-bottom:14px;}
+  .badge-dot{width:5px;height:5px;border-radius:50%;background:var(--c);}
+
+  .req-list{list-style:none;display:flex;flex-direction:column;gap:7px;}
+  .req-list li{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#c8c0b8;line-height:1.5;}
+  .req-list li::before{content:'';min-width:5px;min-height:5px;width:5px;height:5px;border-radius:50%;background:var(--c);margin-top:6px;flex-shrink:0;}
+
+  .card-num{font-family:'Bebas Neue',cursive;font-size:68px;line-height:1;color:var(--c);opacity:0.07;position:absolute;bottom:10px;right:18px;}
+
+  /* PRESTAMOS alert */
+  .alert-box-orange{background:rgba(255,109,0,0.08);border:1.5px solid rgba(255,109,0,0.35);border-radius:12px;padding:13px 15px;margin-top:13px;display:flex;gap:10px;align-items:flex-start;}
+  .alert-box-orange-text{font-size:12px;color:#ffcba0;line-height:1.55;}
+  .alert-box-orange-text strong{color:#FF6D00;}
+
+  /* STEPS (proceso préstamo) */
+  .proceso-steps{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
+  .proceso-step{display:flex;align-items:flex-start;gap:10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:10px 12px;}
+  .proceso-step-num{font-family:'Bebas Neue',cursive;font-size:18px;color:var(--brand);line-height:1;flex-shrink:0;width:20px;}
+  .proceso-step-text{font-size:12px;color:#c8c0b8;line-height:1.5;}
+  .proceso-step-text strong{color:#fff;}
+
+  /* LUTO tabla */
+  .luto-inner{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start;}
+  @media(max-width:600px){.luto-inner{grid-template-columns:1fr;}}
+  .consang-table{width:100%;border-collapse:collapse;margin-top:4px;}
+  .consang-table th{font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);padding:5px 7px;text-align:left;border-bottom:1px solid var(--border);}
+  .consang-table td{font-size:12px;color:#c8c0b8;padding:6px 7px;border-bottom:1px solid rgba(255,255,255,0.04);}
+  .consang-table tr:last-child td{border-bottom:none;}
+  .dot-luto{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--luto);margin-right:6px;vertical-align:middle;}
+
+  /* LICENCIAS semanas */
+  .semanas-row{display:flex;gap:10px;align-items:center;margin-bottom:12px;}
+  .semanas-big{font-family:'Bebas Neue',cursive;font-size:52px;line-height:1;color:var(--c);}
+  .semanas-label{font-size:12px;color:var(--muted);}
+  .semanas-label strong{display:block;font-size:13px;color:#ffffff;font-weight:600;}
+
+  /* CONDUCTO */
+  .conducto-card{margin-top:8px;background:linear-gradient(135deg,rgba(255,109,0,0.08),var(--card-bg));border:1px solid rgba(255,109,0,0.25);border-radius:20px;padding:26px;position:relative;overflow:hidden;animation:fadeUp 0.6s 0.5s ease both;}
+  .conducto-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--brand),#ffb547);border-radius:20px 20px 0 0;}
+  .conducto-header{display:flex;align-items:flex-start;gap:13px;margin-bottom:22px;}
+  .conducto-icon{font-size:26px;flex-shrink:0;margin-top:2px;}
+  .conducto-title{font-family:'Bebas Neue',cursive;font-size:22px;letter-spacing:0.05em;color:#ffffff;margin-bottom:4px;}
+  .conducto-sub{font-size:12px;color:var(--muted);line-height:1.5;}
+  .conducto-flow{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:18px;}
+  .step{display:flex;flex-direction:column;align-items:center;gap:6px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:13px;padding:13px 10px;min-width:88px;flex:1;text-align:center;transition:all 0.3s;}
+  .step:hover{background:rgba(255,109,0,0.1);border-color:rgba(255,109,0,0.4);}
+  .step-num{font-family:'Bebas Neue',cursive;font-size:10px;letter-spacing:0.15em;color:var(--brand);opacity:0.7;}
+  .step-icon{font-size:22px;}
+  .step-label{font-size:11px;font-weight:600;color:#e0d8d0;line-height:1.3;}
+  .step-label small{display:block;color:var(--muted);font-weight:400;font-size:10px;}
+  .step-arrow{font-size:17px;color:rgba(255,109,0,0.4);flex-shrink:0;}
+  @media(max-width:600px){.step-arrow{display:none;}.conducto-flow{flex-direction:column;}.step{width:100%;}}
+  .conducto-warning{display:flex;align-items:flex-start;gap:9px;background:rgba(255,80,50,0.07);border:1px solid rgba(255,80,50,0.2);border-radius:11px;padding:12px 14px;font-size:12px;color:#ffb8a0;line-height:1.5;}
+
+  /* BUTTONS */
+  .action-buttons{display:flex;gap:11px;margin-top:22px;flex-wrap:wrap;animation:fadeUp 0.6s 0.6s ease both;}
+  .action-buttons button{flex:1;min-width:120px;padding:13px 17px;border-radius:11px;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:7px;}
+  .btn-pdf{background:var(--brand);color:#fff;}
+  .btn-pdf:hover{background:#e06000;transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,109,0,0.4);}
+  .btn-share{background:rgba(255,255,255,0.06);color:#e0d8d0;border:1px solid rgba(255,255,255,0.12)!important;}
+  .btn-share:hover{background:rgba(255,255,255,0.1);transform:translateY(-2px);}
+  .btn-print{background:rgba(255,255,255,0.04);color:var(--muted);border:1px solid rgba(255,255,255,0.08)!important;}
+  .btn-print:hover{background:rgba(255,255,255,0.08);transform:translateY(-2px);color:var(--text);}
+
+  /* SHARE TOAST */
+  .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:#1e1a16;border:1px solid rgba(255,109,0,0.4);border-radius:12px;padding:13px 20px;font-size:13px;color:#e0d8d0;display:flex;align-items:center;gap:10px;box-shadow:0 8px 32px rgba(0,0,0,0.5);opacity:0;transition:all 0.3s;pointer-events:none;z-index:999;white-space:nowrap;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  .toast-dot{width:8px;height:8px;border-radius:50%;background:var(--brand);flex-shrink:0;}
+
+  footer{text-align:center;margin-top:40px;color:var(--muted);font-size:12px;animation:fadeUp 0.6s 0.7s ease both;}
+  .footer-line{width:48px;height:2px;background:var(--brand);margin:0 auto 13px;border-radius:2px;opacity:0.4;}
+
+  /* MODAL */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.82);backdrop-filter:blur(10px);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+  .modal-overlay.open{opacity:1;pointer-events:all;}
+  .modal{background:#1a1510;border:1px solid rgba(255,109,0,0.2);border-radius:22px;padding:34px;max-width:460px;width:100%;position:relative;transform:translateY(18px) scale(0.97);transition:transform 0.3s;max-height:85vh;overflow-y:auto;}
+  .modal-overlay.open .modal{transform:none;}
+  .modal::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--brand),transparent);border-radius:22px 22px 0 0;}
+  .modal-close{position:absolute;top:13px;right:13px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:50%;width:29px;height:29px;color:var(--muted);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;}
+  .modal-close:hover{background:rgba(255,109,0,0.15);color:#fff;}
+  .modal-icon{font-size:32px;margin-bottom:9px;}
+  .modal-title{font-family:'Bebas Neue',cursive;font-size:32px;letter-spacing:0.05em;color:#ffffff;margin-bottom:5px;}
+  .modal-sub{color:var(--muted);font-size:12px;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+  .modal-content{display:flex;flex-direction:column;gap:9px;}
+  .modal-item{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:12.5px;color:#c8c0b8;display:flex;align-items:flex-start;gap:10px;line-height:1.5;}
+  .modal-item.alert{background:rgba(255,109,0,0.07);border-color:rgba(255,109,0,0.3);color:#ffcba0;}
+  .modal-item-icon{font-size:17px;flex-shrink:0;margin-top:1px;}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+  /* PRINT / PDF */
+  @media print{
+    body{background:#fff!important;color:#000!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .action-buttons,.modal-overlay,.toast{display:none!important;}
+    .card{break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <span class="label">● Área de Recursos Humanos</span>
+    <h1>PROCESOS<br><span>DE PERSONAL</span></h1>
+    <p class="subtitle">Tiempos, requisitos y conductos · Todo lo que necesitas saber</p>
+    <div class="header-line"></div>
+  </header>
+
+  <!-- BLOQUE 1 -->
+  <div class="section-title">📋 Novedades del día a día</div>
+  <div class="grid grid-2">
+    <div class="card permisos" onclick="openModal('permisos')">
+      <div class="icon-wrap">🗓️</div>
+      <div class="card-title">Permisos</div>
+      <p class="card-desc">Ausencias programadas durante la jornada laboral.</p>
+      <div class="badge"><span class="badge-dot"></span>3 días de anticipación</div>
+      <ul class="req-list">
+        <li>Solicitar con mínimo 3 días hábiles antes</li>
+        <li>Indicar motivo y duración exacta</li>
+        <li>Esperar aprobación del jefe inmediato</li>
+      </ul>
+      <span class="card-num">01</span>
+    </div>
+
+    <div class="card incapacidad" onclick="openModal('incapacidad')">
+      <div class="icon-wrap">🏥</div>
+      <div class="card-title">Incapacidades</div>
+      <p class="card-desc">Ausencias por salud con certificado médico.</p>
+      <div class="badge"><span class="badge-dot"></span>Reportar el mismo día</div>
+      <ul class="req-list">
+        <li>Notificar a RRHH y al jefe el mismo día</li>
+        <li>Entregar certificado médico original</li>
+        <li>Informar prórrogas en cuanto se conozcan</li>
+      </ul>
+      <span class="card-num">02</span>
+    </div>
+
+    <div class="card vacaciones" onclick="openModal('vacaciones')" style="grid-column:1/-1">
+      <div class="icon-wrap">🌴</div>
+      <div class="card-title">Vacaciones</div>
+      <p class="card-desc">Período de descanso remunerado al que tienes derecho según la ley.</p>
+      <div class="badge"><span class="badge-dot"></span>Más de 1 semana de anticipación</div>
+      <ul class="req-list">
+        <li>Solicitar con más de una semana de anticipación</li>
+        <li>Coordinar con el equipo para garantizar cobertura de funciones</li>
+        <li>Confirmar aprobación antes de adquirir tiquetes o planes de viaje</li>
+        <li>Dejar pendientes documentados para facilitar la transición</li>
+      </ul>
+      <span class="card-num">03</span>
+    </div>
+  </div>
+
+  <!-- BLOQUE 2 -->
+  <div class="section-title">💰 Cesantías y Préstamos</div>
+  <div class="grid grid-2">
+    <div class="card cesantias" onclick="openModal('cesantias')">
+      <div class="icon-wrap">🏦</div>
+      <div class="card-title">Cesantías</div>
+      <p class="card-desc">Retiro parcial para causales autorizadas por ley.</p>
+      <div class="badge"><span class="badge-dot"></span>1 día de anticipación</div>
+      <ul class="req-list">
+        <li>🏠 Compra de vivienda</li>
+        <li>🔨 Remodelación de vivienda</li>
+        <li>🎓 Educación</li>
+        <li>Solo estas tres causales son válidas</li>
+      </ul>
+      <span class="card-num">04</span>
+    </div>
+
+    <div class="card prestamos" onclick="openModal('prestamos')">
+      <div class="icon-wrap">💳</div>
+      <div class="card-title">Préstamos</div>
+      <p class="card-desc">Crédito empresarial exclusivo con Vidmax · Solo a través de RRHH.</p>
+      <div class="badge"><span class="badge-dot"></span>Mínimo 1 día de anticipación</div>
+      <div class="proceso-steps">
+        <div class="proceso-step"><span class="proceso-step-num">1</span><span class="proceso-step-text"><strong>Solicitar el formato</strong> en el área de Recursos Humanos</span></div>
+        <div class="proceso-step"><span class="proceso-step-num">2</span><span class="proceso-step-text"><strong>Diligenciar y entregar</strong> el formato con 1 día de anticipación</span></div>
+        <div class="proceso-step"><span class="proceso-step-num">3</span><span class="proceso-step-text"><strong>Esperar autorización</strong> antes de recibir el préstamo</span></div>
+      </div>
+      <div class="alert-box-orange">
+        <span style="font-size:20px;flex-shrink:0">🚫</span>
+        <div class="alert-box-orange-text"><strong>SOLO con Vidmax — convenio empresarial.</strong><br>No se tramita en locales Vidmax ni con ninguna otra entidad. Únicamente a través de <strong>Recursos Humanos</strong>.</div>
+      </div>
+      <span class="card-num">05</span>
+    </div>
+  </div>
+
+  <!-- BLOQUE 3 -->
+  <div class="section-title">🕊️ Licencias especiales</div>
+  <div class="grid" style="grid-template-columns:1fr">
+    <div class="card luto" onclick="openModal('luto')">
+      <div class="luto-inner">
+        <div>
+          <div class="icon-wrap">🕊️</div>
+          <div class="card-title">Licencia de Luto</div>
+          <p class="card-desc">Por fallecimiento de familiar según consanguinidad.</p>
+          <div class="badge"><span class="badge-dot"></span>5 días hábiles</div>
+          <ul class="req-list">
+            <li>Notificar de inmediato a RRHH y al jefe</li>
+            <li>Presentar acta o registro de defunción</li>
+            <li>La licencia inicia desde el día del fallecimiento</li>
+          </ul>
+        </div>
+        <div>
+          <p style="font-size:10.5px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;">Parentesco que aplica</p>
+          <table class="consang-table">
+            <thead><tr><th>Parentesco</th><th>Grado</th></tr></thead>
+            <tbody>
+              <tr><td><span class="dot-luto"></span>Cónyuge / Compañero(a) permanente</td><td style="color:#94a3b8;font-size:11px;">Afectivo</td></tr>
+              <tr><td><span class="dot-luto"></span>Padres / Suegros</td><td style="color:#94a3b8;font-size:11px;">1° consang. / afinidad</td></tr>
+              <tr><td><span class="dot-luto"></span>Hijos</td><td style="color:#94a3b8;font-size:11px;">1° consanguinidad</td></tr>
+              <tr><td><span class="dot-luto"></span>Hermanos / Cuñados</td><td style="color:#94a3b8;font-size:11px;">2° consang. / afinidad</td></tr>
+              <tr><td><span class="dot-luto"></span>Abuelos / Nietos</td><td style="color:#94a3b8;font-size:11px;">2° consanguinidad</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <span class="card-num">06</span>
+    </div>
+  </div>
+
+  <div class="grid grid-2" style="margin-top:14px">
+    <div class="card maternidad" onclick="openModal('maternidad')">
+      <div class="icon-wrap">🤱</div>
+      <div class="card-title">Lic. Maternidad</div>
+      <p class="card-desc">Descanso remunerado para la madre. Art. 236 CST.</p>
+      <div class="semanas-row">
+        <div class="semanas-big">18</div>
+        <div class="semanas-label"><strong>Semanas</strong>remuneradas totales</div>
+      </div>
+      <ul class="req-list">
+        <li>1 semana preparto + 17 semanas posparto</li>
+        <li>Aplica dependientes e independientes</li>
+        <li>Pago 100% a cargo de la EPS</li>
+        <li>Parto múltiple o discapacidad: 20 semanas</li>
+      </ul>
+      <span class="card-num">07</span>
+    </div>
+
+    <div class="card paternidad" onclick="openModal('paternidad')">
+      <div class="icon-wrap">👨‍🍼</div>
+      <div class="card-title">Lic. Paternidad</div>
+      <p class="card-desc">Descanso remunerado para el padre. Ley 2114/2021.</p>
+      <div class="semanas-row">
+        <div class="semanas-big">2</div>
+        <div class="semanas-label"><strong>Semanas</strong>remuneradas</div>
+      </div>
+      <ul class="req-list">
+        <li>Dentro de los 30 días del nacimiento/adopción</li>
+        <li>Registro Civil a la EPS máximo 30 días</li>
+        <li>Pago a cargo de la EPS</li>
+        <li>Aplica también para padres adoptantes</li>
+      </ul>
+      <span class="card-num">08</span>
+    </div>
+  </div>
+
+  <!-- CONDUCTO -->
+  <div class="section-title">⚠️ Conducto regular obligatorio</div>
+  <div class="conducto-card">
+    <div class="conducto-header">
+      <span class="conducto-icon">🔴</span>
+      <div>
+        <div class="conducto-title">TODA NOVEDAD DEBE SEGUIR ESTE ORDEN</div>
+        <p class="conducto-sub">Ningún nivel puede ser omitido. El incumplimiento genera consecuencias disciplinarias según el reglamento interno.</p>
+      </div>
+    </div>
+    <div class="conducto-flow">
+      <div class="step"><div class="step-num">PASO 01</div><div class="step-icon">👤</div><div class="step-label">Jefe Directo</div></div>
+      <div class="step-arrow">→</div>
+      <div class="step"><div class="step-num">PASO 02</div><div class="step-icon">🗂️</div><div class="step-label">Recursos<br>Humanos</div></div>
+      <div class="step-arrow">→</div>
+      <div class="step"><div class="step-num">PASO 03</div><div class="step-icon">🏢</div><div class="step-label">Sub Director<br>General</div></div>
+      <div class="step-arrow">→</div>
+      <div class="step"><div class="step-num">PASO 04</div><div class="step-icon">👔</div><div class="step-label">Juan Gabriel<br><small>Gerencia</small></div></div>
+    </div>
+    <div class="conducto-warning">
+      <span>🚨</span>
+      <span>Omitir niveles o no reportar novedades oportunamente tendrá <strong>consecuencias disciplinarias</strong> de acuerdo con el reglamento interno de la empresa.</span>
+    </div>
+  </div>
+
+  <!-- BOTONES -->
+  <div class="action-buttons">
+    <button class="btn-pdf" onclick="downloadPDF()">📄 Descargar PDF</button>
+    <button class="btn-share" onclick="shareLink()">🔗 Compartir enlace</button>
+    <button class="btn-print" onclick="window.print()">🖨️ Imprimir</button>
+  </div>
+
+  <footer>
+    <div class="footer-line"></div>
+    <p>Toca cada tarjeta para ver el detalle completo · Área de Recursos Humanos</p>
+  </footer>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><span class="toast-dot"></span><span id="toast-msg">¡Enlace copiado!</span></div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-icon" id="modal-icon"></div>
+    <div class="modal-title" id="modal-title"></div>
+    <p class="modal-sub" id="modal-sub"></p>
+    <div class="modal-content" id="modal-content"></div>
+  </div>
+</div>
+
+<script>
+const data = {
+  permisos:{icon:'🗓️',color:'#00e5b4',title:'PERMISOS',sub:'Solicitud de ausencia laboral programada — mínimo 3 días hábiles',items:[
+    {icon:'⏱️',text:'Solicitar con mínimo 3 días hábiles de anticipación.',alert:false},
+    {icon:'📝',text:'Describir el motivo y la duración exacta del permiso.',alert:false},
+    {icon:'👤',text:'Entregar solicitud al jefe inmediato para aprobación.',alert:false},
+    {icon:'📩',text:'Esperar confirmación escrita antes de ausentarse.',alert:false},
+  ]},
+  incapacidad:{icon:'🏥',color:'#ff6b8a',title:'INCAPACIDADES',sub:'Reporte de ausencia por salud — el mismo día',items:[
+    {icon:'📞',text:'Notificar a RRHH y al jefe el mismo día de la ausencia.',alert:false},
+    {icon:'📄',text:'Entregar certificado médico original a la brevedad.',alert:false},
+    {icon:'🩺',text:'Indicar diagnóstico, médico tratante y días estimados.',alert:false},
+    {icon:'🔄',text:'Informar sobre prórrogas en cuanto se conozcan.',alert:false},
+  ]},
+  vacaciones:{icon:'🌴',color:'#6c9cff',title:'VACACIONES',sub:'Período vacacional remunerado — más de 1 semana de anticipación',items:[
+    {icon:'📅',text:'Solicitar con más de una semana de anticipación.',alert:false},
+    {icon:'🤝',text:'Coordinar con el equipo para garantizar cobertura de funciones.',alert:false},
+    {icon:'✅',text:'Esperar aprobación formal antes de adquirir tiquetes o planes.',alert:false},
+    {icon:'📋',text:'Dejar pendientes documentados para facilitar la transición.',alert:false},
+  ]},
+  cesantias:{icon:'🏦',color:'#ffb547',title:'CESANTÍAS',sub:'Retiro parcial — solo causales autorizadas — 1 día de anticipación',items:[
+    {icon:'🏠',text:'Compra de vivienda: presentar promesa de compraventa o escritura.',alert:false},
+    {icon:'🔨',text:'Remodelación de vivienda: presupuesto o contrato de obra.',alert:false},
+    {icon:'🎓',text:'Educación: factura o recibo de matrícula.',alert:false},
+    {icon:'⚠️',text:'No aplica para otros usos. Solo estas tres causales son válidas.',alert:false},
+    {icon:'⏰',text:'Solicitar con al menos 1 día de anticipación.',alert:false},
+  ]},
+  prestamos:{icon:'💳',color:'#FF6D00',title:'PRÉSTAMOS',sub:'Crédito exclusivo con Vidmax · Solo a través de Recursos Humanos',items:[
+    {icon:'📋',text:'Paso 1 — Solicitar el formato de préstamo en el área de Recursos Humanos.',alert:false},
+    {icon:'✍️',text:'Paso 2 — Diligenciar el formato completo y entregarlo con mínimo 1 día de anticipación.',alert:false},
+    {icon:'⏳',text:'Paso 3 — Esperar la autorización oficial antes de recibir cualquier desembolso.',alert:false},
+    {icon:'✅',text:'Paso 4 — Una vez autorizado, RRHH coordina el préstamo con Vidmax empresarial.',alert:false},
+    {icon:'🚫',text:'PROHIBIDO gestionar préstamos directamente en locales Vidmax o con otras entidades. El convenio opera únicamente a través de la empresa.',alert:true},
+    {icon:'💡',text:'Cualquier duda sobre el proceso o el convenio, consultar directamente con RRHH.',alert:false},
+  ]},
+  luto:{icon:'🕊️',color:'#94a3b8',title:'LICENCIA DE LUTO',sub:'5 días hábiles — Art. 57 Código Sustantivo del Trabajo',items:[
+    {icon:'📞',text:'Notificar de inmediato al jefe directo y a RRHH.',alert:false},
+    {icon:'📄',text:'Presentar registro civil de defunción o acta de fallecimiento.',alert:false},
+    {icon:'👨‍👩‍👧',text:'Aplica para: cónyuge/compañero(a), padres, suegros, hijos, hermanos, cuñados, abuelos y nietos.',alert:false},
+    {icon:'📅',text:'La licencia inicia desde el día del fallecimiento o conocimiento del hecho.',alert:false},
+    {icon:'⚖️',text:'Derecho establecido en el Art. 57 numeral 10 del CST.',alert:false},
+  ]},
+  maternidad:{icon:'🤱',color:'#f472b6',title:'LIC. MATERNIDAD',sub:'18 semanas remuneradas — Art. 236 CST · Ley 1822/2017',items:[
+    {icon:'📅',text:'Total: 18 semanas remuneradas (1 semana preparto + 17 semanas posparto).',alert:false},
+    {icon:'👶',text:'Aplica para trabajadoras dependientes e independientes cotizantes activas en EPS.',alert:false},
+    {icon:'💰',text:'Pago al 100% a cargo de la EPS sobre el salario base de cotización.',alert:false},
+    {icon:'➕',text:'Casos especiales: parto múltiple o discapacidad → 20 semanas. Parto prematuro → 18 sem. + semanas de diferencia de gestación.',alert:false},
+    {icon:'🤝',text:'Licencia parental compartida (Ley 2114/2021): los padres pueden distribuir libremente las últimas 6 semanas.',alert:false},
+    {icon:'🍼',text:'Al reincorporarse: derecho a descansos de lactancia remunerados dentro de la jornada.',alert:false},
+  ]},
+  paternidad:{icon:'👨‍🍼',color:'#38bdf8',title:'LIC. PATERNIDAD',sub:'2 semanas remuneradas — Ley 2114/2021 · Vigente 2026',items:[
+    {icon:'📅',text:'Duración: 2 semanas (14 días calendario) completamente remuneradas.',alert:false},
+    {icon:'⏰',text:'Debe tomarse dentro de los 30 días siguientes al nacimiento o adopción.',alert:false},
+    {icon:'📄',text:'Registro Civil de Nacimiento a la EPS máximo 30 días después del parto.',alert:false},
+    {icon:'💰',text:'Pago a cargo de la EPS, proporcional a semanas cotizadas durante la gestación.',alert:false},
+    {icon:'👨‍👩‍👧',text:'Aplica para hijos del cónyuge, compañera permanente y padres adoptantes.',alert:false},
+    {icon:'🤝',text:'Licencia compartida: la madre puede ceder hasta 6 de sus semanas al padre (a partir de semana 13 de la madre).',alert:false},
+  ]},
+};
+
+function openModal(type){
+  const d=data[type];
+  document.getElementById('modal-icon').textContent=d.icon;
+  document.getElementById('modal-title').textContent=d.title;
+  document.getElementById('modal-title').style.color=d.color;
+  document.getElementById('modal-sub').textContent=d.sub;
+  document.getElementById('modal-content').innerHTML=d.items.map(i=>
+    <div class="modal-item${i.alert?' alert':''}"><span class="modal-item-icon">${i.icon}</span><span>${i.text}</span></div>
+  ).join('');
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+function closeModalOutside(e){if(e.target===document.getElementById('modal'))closeModal();}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+function showToast(msg,duration=3000){
+  const t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),duration);
+}
+
+// PDF: usa print con estilos optimizados
+function downloadPDF(){
+  showToast('📄 Abriendo diálogo para guardar como PDF…',4000);
+  setTimeout(()=>window.print(),400);
+}
+
+// COMPARTIR: genera un enlace de datos comprimido usando URL con hash
+async function shareLink(){
+  const btn=document.querySelector('.btn-share');
+  btn.textContent='⏳ Generando enlace…';
+  btn.disabled=true;
+
+  // Intenta Web Share API primero (móvil)
+  if(navigator.share){
+    try{
+      await navigator.share({title:'Procesos RRHH',text:'Guía de procesos de Recursos Humanos',url:window.location.href});
+      btn.innerHTML='🔗 Compartir enlace';
+      btn.disabled=false;
+      return;
+    }catch(e){}
+  }
+
+  // Fallback: copia URL actual al portapapeles
+  try{
+    const url=window.location.href;
+    await navigator.clipboard.writeText(url);
+    showToast('✅ Enlace copiado al portapapeles');
+  }catch(e){
+    // Si nada funciona, muestra instrucción
+    showToast('💡 Copia la URL de tu navegador para compartir',4000);
+  }
+  btn.innerHTML='🔗 Compartir enlace';
+  btn.disabled=false;
+}
+</script>
+</body>
+</html>
