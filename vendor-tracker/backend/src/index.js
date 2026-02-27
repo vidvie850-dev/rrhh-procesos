@@ -8,7 +8,6 @@ const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const vendorRoutes = require('./routes/vendors');
 const locationRoutes = require('./routes/locations');
-const reportRoutes = require('./routes/reports');
 const visitRoutes = require('./routes/visits');
 const { setupSocketHandlers } = require('./socket/handler');
 const { setIO } = require('./socket/io');
@@ -36,7 +35,6 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/vendors', vendorRoutes);
 app.use('/api/locations', locationRoutes);
-app.use('/api/reports', reportRoutes);
 app.use('/api/visits', visitRoutes);
 
 // Health check
