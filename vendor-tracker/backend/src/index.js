@@ -41,7 +41,7 @@ app.use('/api/visits', visitRoutes);
 
 // Health check
 app.get('/api/health', (_req, res) => {
-  res.json({ status: 'ok', timestamp: new Date() });
+  res.json({ status: 'ok', timestamp: new Date(), version: 'v2-with-visits' });
 });
 
 // WebSocket
