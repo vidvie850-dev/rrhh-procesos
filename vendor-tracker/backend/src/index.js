@@ -53,4 +53,5 @@ const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
   console.log(`WebSocket listo en ws://localhost:${PORT}`);
+  console.log('DEPLOY-CHECK: visits-route-v3');
 });
