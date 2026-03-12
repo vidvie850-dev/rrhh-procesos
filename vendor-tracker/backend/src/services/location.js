@@ -4,12 +4,6 @@ const { db } = require('../config/firebase');
 async function saveLocation(vendorId, lat, lng, status) {
   const now = new Date();
 
-  // Verificar horario laboral (9:00 AM - 7:00 PM)
-  const hour = now.getHours();
-  if (hour < 9 || hour >= 19) {
-    return { saved: false, reason: 'Fuera de horario laboral' };
-  }
-
   // Guardar en colección de ubicaciones
   const locationRef = await db.collection('locations').add({
     vendorId,
